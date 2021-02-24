@@ -13,8 +13,8 @@ class DetailViewController: UIViewController {
     //MARK: - IBOutlets
     
     @IBOutlet weak var fotoImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var navItem: UINavigationItem!
     
     //MARK: - Variables
     
@@ -27,15 +27,23 @@ class DetailViewController: UIViewController {
         
         if let photo = photo {
             let photoModel = PhotoViewModel(photo: photo)
+            navItem.title = photoModel.photographer
             fotoImageView.sd_setImage(with: URL(string: photoModel.link))
-            titleLabel.text = photoModel.photographer
             dateLabel.text = photoModel.date
         }
     }
    
     //MARK: - IBActions
+    @IBAction func actionButtonPress(_ sender: UIBarButtonItem) {
+        guard let image = fotoImageView.image else { return }
+        let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        activityController.popoverPresentationController?.barButtonItem = sender
+        activityController.popoverPresentationController?.permittedArrowDirections = .any
+        present(activityController, animated: true, completion: nil)
+    }
     
-    @IBAction func closeButton() {
+    @IBAction func closeButtonPress(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
+
 }

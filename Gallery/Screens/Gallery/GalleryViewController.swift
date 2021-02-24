@@ -17,6 +17,13 @@ final class GalleryViewController: UIViewController {
     
     //MARK: - IBOutlets
     
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.delegate = self
+            searchBar.placeholder = "enter search text"
+        }
+    }
+    
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             let cellNibName = String(describing: GalleryCell.self)
@@ -26,7 +33,13 @@ final class GalleryViewController: UIViewController {
         }
     }
     
-    //MARK: - Variables
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
+        didSet {
+            activityIndicator.hidesWhenStopped = true
+        }
+    }
+    
+    //MARK: - Properties
     
     var presenter: GalleryViewOutput!
     
@@ -35,6 +48,7 @@ final class GalleryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        activityIndicator.startAnimating()
         presenter.start()
     }
 }
@@ -49,7 +63,9 @@ extension GalleryViewController: GalleryViewInput {
     }
     
     func reloadCollection() {
+        activityIndicator.stopAnimating()
         collectionView.reloadData()
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
     }
     
     func show(message: String) {
@@ -89,5 +105,15 @@ extension GalleryViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         presenter.willShowPhoto(by: indexPath.item)
+    }
+}
+
+extension GalleryViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else { return }
+        activityIndicator.startAnimating()
+        searchBar.resignFirstResponder()
+        presenter.didPressSearch(by: text)
     }
 }

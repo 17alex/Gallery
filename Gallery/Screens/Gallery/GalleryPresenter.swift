@@ -10,6 +10,7 @@ import Foundation
 protocol GalleryViewOutput {
     var photos: [Photo] { get }
     func start()
+    func didPressSearch(by text: String)
     func didPressPhoto(by index: Int)
     func willShowPhoto(by index: Int)
 }
@@ -23,6 +24,7 @@ class GalleryPresenter {
     
     var networkService: NetworkServiceProtocol!
     var storeService: StoreServiceProtocol!
+    
     var photos: [Photo] = []
     private var nextPageUrl: String?
     private var isLoading = false
@@ -34,28 +36,29 @@ class GalleryPresenter {
     //MARK: - Metods
     
     private func getPhotosFromStore() {
-        storeService.getPhotos { photos in
-            self.photos = photos
+        storeService.getPhotos { storePhotos in
+            photos = storePhotos
             view.reloadCollection()
         }
     }
     
-    private func loadPhotos(fromUrlString urlString: String, complete: @escaping (Result<Response, Error>) -> Void) {
-        isLoading = true
-        networkService.loadFotos(fromUrlString: urlString) { (result) in
-            complete(result)
-            self.isLoading = false
-        }
-    }
-    
     private func appendPhotos(_ response: Response) {
-        self.storeService.addPhotos(response.photos)
-        self.nextPageUrl = response.nextPageUrl
+        storeService.addPhotos(response.photos)
+        nextPageUrl = response.nextPageUrl
         let startIndex = self.photos.count
-        self.photos.append(contentsOf: response.photos)
+        photos.append(contentsOf: response.photos)
         let endIndex = self.photos.count
         let indexArr = (startIndex..<endIndex).map { Int($0) }
         view.insertItems(at: indexArr)
+    }
+    
+    private func updatePhotos(_ response: Response) {
+        storeService.deleteAllPhotos()
+        storeService.addPhotos(response.photos)
+        photos = []
+        photos.append(contentsOf: response.photos)
+        nextPageUrl = response.nextPageUrl
+        view.reloadCollection()
     }
 }
 
@@ -63,38 +66,40 @@ class GalleryPresenter {
 
 extension GalleryPresenter: GalleryViewOutput {
     
+    func start() {
+        getPhotosFromStore()
+    }
+    
     func didPressPhoto(by index: Int) {
         router.showDetail(by: photos[index])
+    }
+    
+    func didPressSearch(by text: String) {
+        isLoading = true
+        networkService.loadFotosBy(text: text) { (result) in
+            switch result {
+            case .failure(let error):
+                self.view.show(message: error.localizedDescription)
+            case .success(let response):
+                self.updatePhotos(response)
+            }
+            self.isLoading = false
+        }
     }
     
     func willShowPhoto(by index: Int) {
         if !isLoading,
            index >= photos.count - Constans.preLoadPhotoCount,
            let nextPageUrl = nextPageUrl {
-            loadPhotos(fromUrlString: nextPageUrl) { result in
+            isLoading = true
+            networkService.loadFotosFrom(url: nextPageUrl) { (result) in
                 switch result {
                 case .failure(let error):
                     self.view.show(message: error.localizedDescription)
                 case .success(let response):
                     self.appendPhotos(response)
                 }
-            }
-        }
-    }
-    
-    func start() {
-        getPhotosFromStore()
-        loadPhotos(fromUrlString: Constans.apiUrlString) { result in
-            switch result {
-            case .failure(let error):
-                self.view.show(message: error.localizedDescription)
-            case .success(let response):
-                self.storeService.deleteAllPhotos()
-                self.photos = []
-                self.storeService.addPhotos(response.photos)
-                self.nextPageUrl = response.nextPageUrl
-                self.photos.append(contentsOf: response.photos)
-                self.view.reloadCollection()
+                self.isLoading = false
             }
         }
     }

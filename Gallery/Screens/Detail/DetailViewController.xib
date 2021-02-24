@@ -13,7 +13,7 @@
             <connections>
                 <outlet property="dateLabel" destination="dKa-UW-jKI" id="TFW-Xe-9B5"/>
                 <outlet property="fotoImageView" destination="g2I-23-1E0" id="8ju-F6-fzr"/>
-                <outlet property="titleLabel" destination="h1f-zd-PIX" id="DND-2I-e3t"/>
+                <outlet property="navItem" destination="1cf-hQ-w4l" id="Cpl-3d-Tzg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,57 +23,57 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g2I-23-1E0">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="10P-WM-Rti">
-                    <rect key="frame" x="260" y="20" width="40" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="EOe-yD-d4m"/>
-                        <constraint firstAttribute="width" constant="40" id="rqO-mZ-ltK"/>
-                    </constraints>
-                    <state key="normal" image="close">
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
-                    </state>
-                    <connections>
-                        <action selector="closeButton" destination="-1" eventType="touchUpInside" id="QiW-XW-d25"/>
-                    </connections>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1f-zd-PIX">
-                    <rect key="frame" x="16" y="490" width="288" height="24"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKa-UW-jKI">
-                    <rect key="frame" x="16" y="518" width="288" height="18"/>
+                    <rect key="frame" x="16" y="517" width="288" height="19"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
+                    <color key="shadowColor" systemColor="systemGray6Color"/>
+                    <size key="shadowOffset" width="1" height="1"/>
                 </label>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yk0-oT-3MG">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="1cf-hQ-w4l">
+                            <barButtonItem key="leftBarButtonItem" systemItem="action" id="MSr-cB-pzO">
+                                <connections>
+                                    <action selector="actionButtonPress:" destination="-1" id="rob-vN-fsc"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" systemItem="stop" id="jyV-QG-Ey7">
+                                <connections>
+                                    <action selector="closeButtonPress:" destination="-1" id="i3O-SH-U5F"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dKa-UW-jKI" secondAttribute="bottom" constant="32" id="1Ig-8F-fR9"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="h1f-zd-PIX" secondAttribute="trailing" constant="16" id="ATh-uG-Rcf"/>
+                <constraint firstItem="yk0-oT-3MG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="4Ar-0C-UYp"/>
                 <constraint firstItem="dKa-UW-jKI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="Bdn-8q-Hky"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="10P-WM-Rti" secondAttribute="trailing" constant="20" id="Hky-fq-Hqf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="g2I-23-1E0" secondAttribute="trailing" id="IrX-BF-i2T"/>
-                <constraint firstItem="dKa-UW-jKI" firstAttribute="top" secondItem="h1f-zd-PIX" secondAttribute="bottom" constant="4" id="NLs-pc-HuU"/>
                 <constraint firstItem="g2I-23-1E0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="P6z-Zc-hxY"/>
-                <constraint firstItem="10P-WM-Rti" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="T0A-nn-9D0"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="g2I-23-1E0" secondAttribute="bottom" id="Yjd-eA-4ae"/>
+                <constraint firstItem="yk0-oT-3MG" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ZPE-vd-61A"/>
+                <constraint firstItem="yk0-oT-3MG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dIH-dx-qnA"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dKa-UW-jKI" secondAttribute="trailing" constant="16" id="eMd-tI-nyQ"/>
-                <constraint firstItem="g2I-23-1E0" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kYf-Jd-jda"/>
-                <constraint firstItem="h1f-zd-PIX" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="uYX-ae-BOx"/>
+                <constraint firstItem="g2I-23-1E0" firstAttribute="top" secondItem="yk0-oT-3MG" secondAttribute="bottom" id="xCR-kd-x11"/>
             </constraints>
-            <point key="canvasLocation" x="-145" y="-21"/>
+            <point key="canvasLocation" x="-146.25" y="-21.12676056338028"/>
         </view>
     </objects>
     <resources>
-        <image name="close" width="512" height="512"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

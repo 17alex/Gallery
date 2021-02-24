@@ -18,6 +18,8 @@ class StoreService {
     
     lazy var context = persistentContainer.viewContext
 
+    //MARK: - Metods
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Gallery")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
