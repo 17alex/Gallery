@@ -26,6 +26,7 @@ final class GalleryViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
+            collectionView.collectionViewLayout = getLayout()
             let cellNibName = String(describing: GalleryCell.self)
             collectionView.register(UINib(nibName: cellNibName, bundle: nil), forCellWithReuseIdentifier: cellNibName)
             collectionView.dataSource = self
@@ -50,6 +51,35 @@ final class GalleryViewController: UIViewController {
         
         activityIndicator.startAnimating()
         presenter.start()
+    }
+    
+    func getLayout() -> UICollectionViewLayout {
+        let leadingGroup = getGroup()
+        let centerGroup = getCenterGroup()
+        let trealingGroup = getGroup()
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.75))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [leadingGroup, centerGroup, trealingGroup])
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    private func getGroup() -> NSCollectionLayoutGroup {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.5))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 2)
+        return group
+    }
+    
+    private func getCenterGroup() -> NSCollectionLayoutGroup {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
+        return group
     }
 }
 
@@ -95,9 +125,9 @@ extension GalleryViewController: UICollectionViewDataSource {
 
 extension GalleryViewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return Constans.cellSize
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return Constans.cellSize
+//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter.didPressPhoto(by: indexPath.item)
