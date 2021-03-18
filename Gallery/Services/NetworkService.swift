@@ -8,8 +8,8 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func loadFotosBy(text: String, complete: @escaping (Result<Response, Error>) -> Void)
-    func loadFotosFrom(url: String, complete: @escaping (Result<Response, Error>) -> Void)
+    func loadPhotosBy(text: String, complete: @escaping (Result<Response, Error>) -> Void)
+    func loadPhotosFrom(url: String, complete: @escaping (Result<Response, Error>) -> Void)
 }
 
 class NetworkService {
@@ -33,7 +33,7 @@ class NetworkService {
         }.resume()
     }
     
-    private func getUrlForSearch(from text: String) -> URL? {
+    private func getUrlForSearch(_ text: String) -> URL? {
         let findText = text.replacingOccurrences(of: " ", with: "+")
         var components = URLComponents()
         components.scheme = "https"
@@ -55,12 +55,12 @@ class NetworkService {
 
 extension NetworkService: NetworkServiceProtocol {
     
-    func loadFotosBy(text: String, complete: @escaping (Result<Response, Error>) -> Void) {
-        guard let url = getUrlForSearch(from: text) else { return }
+    func loadPhotosBy(text: String, complete: @escaping (Result<Response, Error>) -> Void) {
+        guard let url = getUrlForSearch(text) else { return }
         resumeTask(request: getRequest(from: url), complete: complete)
     }
     
-    func loadFotosFrom(url: String, complete: @escaping (Result<Response, Error>) -> Void) {
+    func loadPhotosFrom(url: String, complete: @escaping (Result<Response, Error>) -> Void) {
         guard let url = URL(string: url) else { return }
         resumeTask(request: getRequest(from: url), complete: complete)
     }

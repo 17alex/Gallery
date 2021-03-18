@@ -8,11 +8,18 @@
 import Foundation
 
 protocol GalleryViewOutput {
-    var photos: [Photo] { get }
-    func start()
+    var photoViewModels: [PhotoViewModel] { get }
+    func viewDidLoad()
     func didPressSearch(by text: String)
     func didPressPhoto(by index: Int)
     func willShowPhoto(by index: Int)
+}
+
+protocol GalleryInteractorOutput: class {
+    func didObtain(photos: [Photo])
+    func didAppendPhotos(at indexArr: [Int])
+    func didUpdatePhotos()
+    func didCameError(_ error: Error)
 }
 
 class GalleryPresenter {
@@ -20,45 +27,18 @@ class GalleryPresenter {
     //MARK: - Variables
     
     unowned var view: GalleryViewInput
+    var interactor: GalleryInteractorInput!
     var router: GalleryRouterProtocol!
     
-    var networkService: NetworkServiceProtocol!
-    var storeService: StoreServiceProtocol!
-    
-    var photos: [Photo] = []
-    private var nextPageUrl: String?
-    private var isLoading = false
+    var photoViewModels: [PhotoViewModel] = []
     
     init(view: GalleryViewInput) {
         self.view = view
+        print("GalleryPresenter init")
     }
     
-    //MARK: - Metods
-    
-    private func getPhotosFromStore() {
-        storeService.getPhotos { storePhotos in
-            photos = storePhotos
-            view.reloadCollection()
-        }
-    }
-    
-    private func appendPhotos(_ response: Response) {
-        storeService.addPhotos(response.photos)
-        nextPageUrl = response.nextPageUrl
-        let startIndex = self.photos.count
-        photos.append(contentsOf: response.photos)
-        let endIndex = self.photos.count
-        let indexArr = (startIndex..<endIndex).map { Int($0) }
-        view.insertItems(at: indexArr)
-    }
-    
-    private func updatePhotos(_ response: Response) {
-        storeService.deleteAllPhotos()
-        storeService.addPhotos(response.photos)
-        photos = []
-        photos.append(contentsOf: response.photos)
-        nextPageUrl = response.nextPageUrl
-        view.reloadCollection()
+    deinit {
+        print("GalleryPresenter deinit")
     }
 }
 
@@ -66,41 +46,42 @@ class GalleryPresenter {
 
 extension GalleryPresenter: GalleryViewOutput {
     
-    func start() {
-        getPhotosFromStore()
+    func viewDidLoad() {
+        interactor.getPhotos()
     }
     
     func didPressPhoto(by index: Int) {
-        router.showDetail(by: photos[index])
+        router.showDetail(by: photoViewModels[index])
     }
     
     func didPressSearch(by text: String) {
-        isLoading = true
-        networkService.loadFotosBy(text: text) { (result) in
-            switch result {
-            case .failure(let error):
-                self.view.show(message: error.localizedDescription)
-            case .success(let response):
-                self.updatePhotos(response)
-            }
-            self.isLoading = false
-        }
+        interactor.getSearchPhotos(by: text)
     }
     
     func willShowPhoto(by index: Int) {
-        if !isLoading,
-           index >= photos.count - Constans.preLoadPhotoCount,
-           let nextPageUrl = nextPageUrl {
-            isLoading = true
-            networkService.loadFotosFrom(url: nextPageUrl) { (result) in
-                switch result {
-                case .failure(let error):
-                    self.view.show(message: error.localizedDescription)
-                case .success(let response):
-                    self.appendPhotos(response)
-                }
-                self.isLoading = false
-            }
-        }
+        interactor.willShowPhoto(by: index)
+    }
+}
+
+extension GalleryPresenter: GalleryInteractorOutput {
+    
+    func didObtain(photos: [Photo]) {
+        photoViewModels = photos.map { PhotoViewModel(photo: $0) }
+        view.reloadCollection()
+    }
+    
+    func didAppendPhotos(at indexArr: [Int]) {
+        let photoViewModels = indexArr.map { PhotoViewModel(photo: interactor.photos[$0]) }
+        self.photoViewModels.append(contentsOf: photoViewModels)
+        view.insertItems(at: indexArr)
+    }
+    
+    func didUpdatePhotos() {
+        photoViewModels = interactor.photos.map { PhotoViewModel(photo: $0) }
+        view.reloadCollection()
+    }
+    
+    func didCameError(_ error: Error) {
+        view.show(message: error.localizedDescription)
     }
 }

@@ -50,7 +50,7 @@ final class GalleryViewController: UIViewController {
         super.viewDidLoad()
         
         activityIndicator.startAnimating()
-        presenter.start()
+        presenter.viewDidLoad()
     }
     
     func getLayout() -> UICollectionViewLayout {
@@ -111,12 +111,12 @@ extension GalleryViewController: GalleryViewInput {
 extension GalleryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.photos.count
+        return presenter.photoViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GalleryCell.self), for: indexPath) as! GalleryCell
-        cell.set(photoModel: PhotoViewModel(photo: presenter.photos[indexPath.item]))
+        cell.set(photoModel: presenter.photoViewModels[indexPath.item])
         return cell
     }
 }
@@ -124,10 +124,6 @@ extension GalleryViewController: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 
 extension GalleryViewController: UICollectionViewDelegateFlowLayout {
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return Constans.cellSize
-//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter.didPressPhoto(by: indexPath.item)

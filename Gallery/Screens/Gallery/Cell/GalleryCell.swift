@@ -10,11 +10,11 @@ import SDWebImage
 
 class GalleryCell: UICollectionViewCell {
 
-    @IBOutlet weak var fotoImageView: UIImageView!
+    @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
     func set(photoModel: PhotoViewModel) {
         nameLabel.text = photoModel.photographer
-        fotoImageView.sd_setImage(with: URL(string: photoModel.link))
+        photoImageView.sd_setImage(with: URL(string: photoModel.link))
     }
 }

@@ -12,8 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController" customModule="Gallery" customModuleProvider="target">
             <connections>
                 <outlet property="dateLabel" destination="dKa-UW-jKI" id="TFW-Xe-9B5"/>
-                <outlet property="fotoImageView" destination="g2I-23-1E0" id="8ju-F6-fzr"/>
                 <outlet property="navItem" destination="1cf-hQ-w4l" id="Cpl-3d-Tzg"/>
+                <outlet property="photoImageView" destination="g2I-23-1E0" id="8ju-F6-fzr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

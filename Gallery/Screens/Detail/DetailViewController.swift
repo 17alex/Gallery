@@ -12,30 +12,30 @@ class DetailViewController: UIViewController {
 
     //MARK: - IBOutlets
     
-    @IBOutlet weak var fotoImageView: UIImageView!
+    @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var navItem: UINavigationItem!
     
     //MARK: - Variables
     
-    var photo: Photo?
+    var photoViewModel: PhotoViewModel?
     
     //MARK: - LiveCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let photo = photo {
-            let photoModel = PhotoViewModel(photo: photo)
-            navItem.title = photoModel.photographer
-            fotoImageView.sd_setImage(with: URL(string: photoModel.link))
-            dateLabel.text = photoModel.date
+        if let photoViewModel = photoViewModel {
+            navItem.title = photoViewModel.photographer
+            photoImageView.sd_setImage(with: URL(string: photoViewModel.link))
+            dateLabel.text = photoViewModel.date
         }
     }
    
     //MARK: - IBActions
+    
     @IBAction func actionButtonPress(_ sender: UIBarButtonItem) {
-        guard let image = fotoImageView.image else { return }
+        guard let image = photoImageView.image else { return }
         let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         activityController.popoverPresentationController?.barButtonItem = sender
         activityController.popoverPresentationController?.permittedArrowDirections = .any

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol GalleryRouterProtocol {
-    func showDetail(by photo: Photo)
+    func showDetail(by photosViewModels: PhotoViewModel)
 }
 
 class GalleryRouter {
@@ -25,8 +25,8 @@ class GalleryRouter {
 
 extension GalleryRouter: GalleryRouterProtocol {
     
-    func showDetail(by photo: Photo) {
-        let detailVC = assembly.getDetailVC(by: photo)
+    func showDetail(by photosViewModel: PhotoViewModel) {
+        let detailVC = assembly.getDetailVC(by: photosViewModel)
         view.present(detailVC, animated: true)
     }
 }

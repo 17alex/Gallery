@@ -28,6 +28,7 @@
 		FA475DE125DD08B700AA8B13 /* PhotoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA475DDF25DD08B700AA8B13 /* PhotoEntity+CoreDataClass.swift */; };
 		FA475DE225DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA475DE025DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift */; };
 		FA475DE825DD551400AA8B13 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA475DE725DD551400AA8B13 /* PhotoViewModel.swift */; };
+		FA6812E0260341F000F2DD01 /* GalleryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		FA475DDF25DD08B700AA8B13 /* PhotoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FA475DE025DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FA475DE725DD551400AA8B13 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
+		FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				FA07188425DBF5B9000E97B4 /* GalleryViewController.swift */,
 				FA07188525DBF5B9000E97B4 /* GalleryViewController.xib */,
 				8D0D271C25DD8AE000CDCF5D /* GalleryPresenter.swift */,
+				FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */,
 				8D0D272025DD95C900CDCF5D /* GalleryRouter.swift */,
 				FA07188E25DC02DE000E97B4 /* Cell */,
 			);
@@ -250,6 +253,7 @@
 				FA475DDD25DD033600AA8B13 /* StoreService.swift in Sources */,
 				FA475DE825DD551400AA8B13 /* PhotoViewModel.swift in Sources */,
 				FA07188A25DBF93E000E97B4 /* Response.swift in Sources */,
+				FA6812E0260341F000F2DD01 /* GalleryInteractor.swift in Sources */,
 				8D5743FB25DC393200F7AD0C /* DetailViewController.swift in Sources */,
 				8D0D272125DD95C900CDCF5D /* GalleryRouter.swift in Sources */,
 			);

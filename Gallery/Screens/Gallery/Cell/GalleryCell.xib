@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -42,8 +40,8 @@
                 <constraint firstAttribute="trailing" secondItem="qi2-yF-tnW" secondAttribute="trailing" id="sdm-LM-9aa"/>
             </constraints>
             <connections>
-                <outlet property="fotoImageView" destination="qi2-yF-tnW" id="vlB-6G-IE1"/>
                 <outlet property="nameLabel" destination="cXN-xP-4JQ" id="Wze-7X-DFy"/>
+                <outlet property="photoImageView" destination="qi2-yF-tnW" id="vlB-6G-IE1"/>
             </connections>
             <point key="canvasLocation" x="140.57971014492756" y="142.63392857142856"/>
         </collectionViewCell>
