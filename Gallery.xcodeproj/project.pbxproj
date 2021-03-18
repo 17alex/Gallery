@@ -11,7 +11,6 @@
 		8D0D272125DD95C900CDCF5D /* GalleryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0D272025DD95C900CDCF5D /* GalleryRouter.swift */; };
 		8D5743FB25DC393200F7AD0C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5743F925DC393200F7AD0C /* DetailViewController.swift */; };
 		8D5743FC25DC393200F7AD0C /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D5743FA25DC393200F7AD0C /* DetailViewController.xib */; };
-		8D638A0125DD840E00FD3A35 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D638A0025DD840E00FD3A35 /* Assembly.swift */; };
 		FA07186A25DBF423000E97B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA07186925DBF423000E97B4 /* AppDelegate.swift */; };
 		FA07187425DBF423000E97B4 /* Gallery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA07187225DBF423000E97B4 /* Gallery.xcdatamodeld */; };
 		FA07187625DBF42C000E97B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA07187525DBF42C000E97B4 /* Assets.xcassets */; };
@@ -29,6 +28,8 @@
 		FA475DE225DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA475DE025DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift */; };
 		FA475DE825DD551400AA8B13 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA475DE725DD551400AA8B13 /* PhotoViewModel.swift */; };
 		FA6812E0260341F000F2DD01 /* GalleryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */; };
+		FA6812E32603609B00F2DD01 /* GalleryBilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6812E22603609B00F2DD01 /* GalleryBilder.swift */; };
+		FA6812E62603614300F2DD01 /* DetailBilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6812E52603614300F2DD01 /* DetailBilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +37,6 @@
 		8D0D272025DD95C900CDCF5D /* GalleryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryRouter.swift; sourceTree = "<group>"; };
 		8D5743F925DC393200F7AD0C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		8D5743FA25DC393200F7AD0C /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
-		8D638A0025DD840E00FD3A35 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		FA07186625DBF422000E97B4 /* Gallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA07186925DBF423000E97B4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA07187325DBF423000E97B4 /* Gallery.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Gallery.xcdatamodel; sourceTree = "<group>"; };
@@ -55,6 +55,8 @@
 		FA475DE025DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FA475DE725DD551400AA8B13 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryInteractor.swift; sourceTree = "<group>"; };
+		FA6812E22603609B00F2DD01 /* GalleryBilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryBilder.swift; sourceTree = "<group>"; };
+		FA6812E52603614300F2DD01 /* DetailBilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			children = (
 				8D5743F925DC393200F7AD0C /* DetailViewController.swift */,
 				8D5743FA25DC393200F7AD0C /* DetailViewController.xib */,
+				FA6812E52603614300F2DD01 /* DetailBilder.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 				8D0D271C25DD8AE000CDCF5D /* GalleryPresenter.swift */,
 				FA6812DF260341F000F2DD01 /* GalleryInteractor.swift */,
 				8D0D272025DD95C900CDCF5D /* GalleryRouter.swift */,
+				FA6812E22603609B00F2DD01 /* GalleryBilder.swift */,
 				FA07188E25DC02DE000E97B4 /* Cell */,
 			);
 			path = Gallery;
@@ -157,7 +161,6 @@
 			children = (
 				FA07189A25DC12D2000E97B4 /* NetworkService.swift */,
 				FA475DDC25DD033600AA8B13 /* StoreService.swift */,
-				8D638A0025DD840E00FD3A35 /* Assembly.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -244,17 +247,18 @@
 				8D0D271D25DD8AE000CDCF5D /* GalleryPresenter.swift in Sources */,
 				FA475DE225DD08B700AA8B13 /* PhotoEntity+CoreDataProperties.swift in Sources */,
 				FA07188625DBF5B9000E97B4 /* GalleryViewController.swift in Sources */,
-				8D638A0125DD840E00FD3A35 /* Assembly.swift in Sources */,
 				FA475DD825DCF70600AA8B13 /* Constans.swift in Sources */,
 				FA07189125DC02FB000E97B4 /* GalleryCell.swift in Sources */,
 				FA475DE125DD08B700AA8B13 /* PhotoEntity+CoreDataClass.swift in Sources */,
 				FA07189B25DC12D2000E97B4 /* NetworkService.swift in Sources */,
 				FA07186A25DBF423000E97B4 /* AppDelegate.swift in Sources */,
 				FA475DDD25DD033600AA8B13 /* StoreService.swift in Sources */,
+				FA6812E32603609B00F2DD01 /* GalleryBilder.swift in Sources */,
 				FA475DE825DD551400AA8B13 /* PhotoViewModel.swift in Sources */,
 				FA07188A25DBF93E000E97B4 /* Response.swift in Sources */,
 				FA6812E0260341F000F2DD01 /* GalleryInteractor.swift in Sources */,
 				8D5743FB25DC393200F7AD0C /* DetailViewController.swift in Sources */,
+				FA6812E62603614300F2DD01 /* DetailBilder.swift in Sources */,
 				8D0D272125DD95C900CDCF5D /* GalleryRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

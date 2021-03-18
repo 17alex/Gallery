@@ -16,13 +16,12 @@ protocol GalleryViewOutput {
 }
 
 protocol GalleryInteractorOutput: class {
-    func didObtain(photos: [Photo])
     func didAppendPhotos(at indexArr: [Int])
     func didUpdatePhotos()
     func didCameError(_ error: Error)
 }
 
-class GalleryPresenter {
+final class GalleryPresenter {
     
     //MARK: - Variables
     
@@ -47,6 +46,7 @@ class GalleryPresenter {
 extension GalleryPresenter: GalleryViewOutput {
     
     func viewDidLoad() {
+        view.loadingStart()
         interactor.getPhotos()
     }
     
@@ -55,6 +55,7 @@ extension GalleryPresenter: GalleryViewOutput {
     }
     
     func didPressSearch(by text: String) {
+        view.loadingStart()
         interactor.getSearchPhotos(by: text)
     }
     
@@ -64,21 +65,17 @@ extension GalleryPresenter: GalleryViewOutput {
 }
 
 extension GalleryPresenter: GalleryInteractorOutput {
-    
-    func didObtain(photos: [Photo]) {
-        photoViewModels = photos.map { PhotoViewModel(photo: $0) }
-        view.reloadCollection()
-    }
-    
+        
     func didAppendPhotos(at indexArr: [Int]) {
         let photoViewModels = indexArr.map { PhotoViewModel(photo: interactor.photos[$0]) }
         self.photoViewModels.append(contentsOf: photoViewModels)
-        view.insertItems(at: indexArr)
+        view.didAppendData()
     }
     
     func didUpdatePhotos() {
         photoViewModels = interactor.photos.map { PhotoViewModel(photo: $0) }
-        view.reloadCollection()
+        view.loadingFinish()
+        view.didUpdateData()
     }
     
     func didCameError(_ error: Error) {

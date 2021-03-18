@@ -14,7 +14,7 @@ protocol GalleryInteractorInput {
     func willShowPhoto(by index: Int)
 }
 
-class GalleryInteractor {
+final class GalleryInteractor {
     
     unowned let presenter: GalleryInteractorOutput
     var networkService: NetworkServiceProtocol!
@@ -62,7 +62,7 @@ extension GalleryInteractor: GalleryInteractorInput {
     func getPhotos() {
         storeService.getPhotos { storePhotos in
             photos = storePhotos
-            presenter.didObtain(photos: photos)
+            presenter.didUpdatePhotos()
         }
     }
     
@@ -70,8 +70,10 @@ extension GalleryInteractor: GalleryInteractorInput {
         isLoading = true
         networkService.loadPhotosBy(text: text) { (result) in
             switch result {
-            case .failure(let error): self.presenter.didCameError(error)
-            case .success(let response): self.updatePhotos(response)
+            case .failure(let error):
+                self.presenter.didCameError(error)
+            case .success(let response):
+                self.updatePhotos(response)
             }
             self.isLoading = false
         }
@@ -84,8 +86,10 @@ extension GalleryInteractor: GalleryInteractorInput {
             isLoading = true
             networkService.loadPhotosFrom(url: nextPageUrl) { (result) in
                 switch result {
-                case .failure(let error): self.presenter.didCameError(error)
-                case .success(let response): self.appendPhotos(response)
+                case .failure(let error):
+                    self.presenter.didCameError(error)
+                case .success(let response):
+                    self.appendPhotos(response)
                 }
                 self.isLoading = false
             }

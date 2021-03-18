@@ -11,10 +11,9 @@ protocol GalleryRouterProtocol {
     func showDetail(by photosViewModels: PhotoViewModel)
 }
 
-class GalleryRouter {
+final class GalleryRouter {
     
     unowned let view: UIViewController
-    var assembly: Assembly!
     
     init(view: UIViewController) {
         self.view = view
@@ -26,7 +25,7 @@ class GalleryRouter {
 extension GalleryRouter: GalleryRouterProtocol {
     
     func showDetail(by photosViewModel: PhotoViewModel) {
-        let detailVC = assembly.getDetailVC(by: photosViewModel)
+        let detailVC = DetailBilder.getDetailVC(by: photosViewModel)
         view.present(detailVC, animated: true)
     }
 }

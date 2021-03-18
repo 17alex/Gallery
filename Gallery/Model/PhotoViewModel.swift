@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct PhotoViewModel {
+struct PhotoViewModel: Hashable {
     let photographer: String
     let link: String
     let date: String
+    let id = UUID()
     
     init(photo: Photo) {
         self.photographer = photo.photographer
@@ -20,4 +21,8 @@ struct PhotoViewModel {
         dateFormatter.dateStyle = .medium
         self.date = dateFormatter.string(from: photo.date)
     }
+}
+
+enum Section {
+    case gallery
 }

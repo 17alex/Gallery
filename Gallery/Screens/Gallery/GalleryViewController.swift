@@ -9,8 +9,10 @@ import UIKit
 
 protocol GalleryViewInput: class {
     func show(message: String)
-    func reloadCollection()
-    func insertItems(at indexArr: [Int])
+    func didAppendData()
+    func didUpdateData()
+    func loadingStart()
+    func loadingFinish()
 }
 
 final class GalleryViewController: UIViewController {
@@ -29,7 +31,6 @@ final class GalleryViewController: UIViewController {
             collectionView.collectionViewLayout = getLayout()
             let cellNibName = String(describing: GalleryCell.self)
             collectionView.register(UINib(nibName: cellNibName, bundle: nil), forCellWithReuseIdentifier: cellNibName)
-            collectionView.dataSource = self
             collectionView.delegate = self
         }
     }
@@ -43,21 +44,41 @@ final class GalleryViewController: UIViewController {
     //MARK: - Properties
     
     var presenter: GalleryViewOutput!
+    var collectionDataSource: UICollectionViewDiffableDataSource<Section, PhotoViewModel>!
     
     //MARK: - LiceCycles
     
+    deinit {
+        print("GalleryViewController deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        activityIndicator.startAnimating()
+        print("GalleryViewController init")
+        createDataSource()
         presenter.viewDidLoad()
+    }
+    
+    private func createDataSource() {
+        collectionDataSource = UICollectionViewDiffableDataSource<Section, PhotoViewModel>(collectionView: collectionView) { (collectionView, indexPath, photo) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GalleryCell.self), for: indexPath) as! GalleryCell
+            cell.set(photoModel: photo)
+            return cell
+        }
+    }
+    
+    private func createSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, PhotoViewModel>()
+        snapshot.appendSections([.gallery])
+        snapshot.appendItems(presenter.photoViewModels, toSection: .gallery)
+        collectionDataSource.apply(snapshot, animatingDifferences: true)
     }
     
     func getLayout() -> UICollectionViewLayout {
         let leadingGroup = getGroup()
         let centerGroup = getCenterGroup()
         let trealingGroup = getGroup()
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.75))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [leadingGroup, centerGroup, trealingGroup])
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -65,20 +86,25 @@ final class GalleryViewController: UIViewController {
     }
     
     private func getGroup() -> NSCollectionLayoutGroup {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.5))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(4.5))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 2)
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 3)
         return group
     }
     
     private func getCenterGroup() -> NSCollectionLayoutGroup {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
+        let itemTopSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(2 / 3))
+        let itemTop = NSCollectionLayoutItem(layoutSize: itemTopSize)
+        itemTop.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
+        
+        let itemBotSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1 / 3))
+        let itemBot = NSCollectionLayoutItem(layoutSize: itemBotSize)
+        itemBot.contentInsets = .init(top: 1, leading: 1, bottom: 1, trailing: 1)
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item])
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [itemTop, itemBot])
         return group
     }
 }
@@ -87,14 +113,12 @@ final class GalleryViewController: UIViewController {
 
 extension GalleryViewController: GalleryViewInput {
     
-    func insertItems(at indexArr: [Int]) {
-        let indexPaths = indexArr.map { IndexPath(item: $0, section: 0) }
-        collectionView.insertItems(at: indexPaths)
+    func didAppendData() {
+        createSnapshot()
     }
     
-    func reloadCollection() {
-        activityIndicator.stopAnimating()
-        collectionView.reloadData()
+    func didUpdateData() {
+        createSnapshot()
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
     }
     
@@ -104,20 +128,13 @@ extension GalleryViewController: GalleryViewInput {
         alertController.addAction(okAction)
         present(alertController, animated: true)
     }
-}
-
-//MARK: - UICollectionViewDataSource
-
-extension GalleryViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.photoViewModels.count
+    func loadingStart() {
+        activityIndicator.startAnimating()
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GalleryCell.self), for: indexPath) as! GalleryCell
-        cell.set(photoModel: presenter.photoViewModels[indexPath.item])
-        return cell
+    func loadingFinish() {
+        activityIndicator.stopAnimating()
     }
 }
 
@@ -138,7 +155,6 @@ extension GalleryViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else { return }
-        activityIndicator.startAnimating()
         searchBar.resignFirstResponder()
         presenter.didPressSearch(by: text)
     }
